@@ -41,11 +41,6 @@ export const setConfig = <T extends keyof UserConfig>(
   domain: string = window.location.hostname
 ) => Browser.storage.sync.set({ [`${domain}:${name}`]: value });
 
-export const clearConfig = (
-  name: keyof UserConfig,
-  domain: string = window.location.hostname
-) => Browser.storage.sync.remove(`${domain}:${name}`);
-
 export const addConfigChangeListener = (
   name: keyof UserConfig,
   handler: (value: never) => void,

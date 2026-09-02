@@ -2,7 +2,11 @@
 
 Replaces the file and folder icons on GitHub, GitLab, Bitbucket and other code
 hosts with [Symbols](https://github.com/miguelsolorio/vscode-symbols), the icon
-set by Miguel Solorio.
+set by [Miguel Solorio](https://github.com/miguelsolorio).
+
+<p>
+  <img alt="A GitHub file listing with Symbols icons" width="320" src="preview.png">
+</p>
 
 ## Install
 
