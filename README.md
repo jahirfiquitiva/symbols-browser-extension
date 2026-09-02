@@ -5,7 +5,10 @@ hosts with [Symbols](https://github.com/miguelsolorio/vscode-symbols), the icon
 set by [Miguel Solorio](https://github.com/miguelsolorio).
 
 <p>
-  <img alt="A GitHub file listing with Symbols icons" width="320" src="preview.png">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/store-preview-dark.jpeg">
+    <img alt="A GitHub file listing with Symbols icons" width="640" src="media/store-preview-light.jpeg">
+  </picture>
 </p>
 
 ## Install
@@ -20,26 +23,26 @@ set by [Miguel Solorio](https://github.com/miguelsolorio).
 -->
 
 <p>
-  <a href="https://chromewebstore.google.com/detail/CHROME_EXTENSION_ID">
+  <a href="https://chromewebstore.google.com/detail/aelfnlibljbgmcddnjfdnmclkggdofgk">
     <img alt="Available in the Chrome Web Store" height="56"
       src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png">
   </a>
-  <a href="https://microsoftedge.microsoft.com/addons/detail/EDGE_EXTENSION_ID">
+  <!-- <a href="https://microsoftedge.microsoft.com/addons/detail/EDGE_EXTENSION_ID">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://get.microsoft.com/images/en-us%20light.svg">
       <img alt="Get it from Microsoft" height="56" src="https://get.microsoft.com/images/en-us%20dark.svg">
     </picture>
-  </a>
-  <a href="https://addons.mozilla.org/firefox/addon/FIREFOX_ADDON_SLUG/">
+  </a> -->
+  <a href="https://addons.mozilla.org/firefox/addon/symbols-icons/">
     <img alt="Get the add-on for Firefox" height="56"
       src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg">
   </a>
-  <a href="https://apps.apple.com/app/idSAFARI_APP_ID">
+  <!-- <a href="https://apps.apple.com/app/idSAFARI_APP_ID">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-mac-app-store/white/en-us">
       <img alt="Download on the Mac App Store" height="56" src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-mac-app-store/black/en-us">
     </picture>
-  </a>
+  </a> -->
 </p>
 
 None of those listings exist yet, so the buttons above are placeholders. Until
