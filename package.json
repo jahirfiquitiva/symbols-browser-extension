@@ -1,6 +1,6 @@
 {
   "name": "symbols-browser-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "File and folder icons for GitHub, GitLab, Bitbucket and other code hosts, using the Symbols icon theme from VS Code.",
   "main": "src/main.ts",
   "author": {
@@ -53,6 +53,7 @@
     "bundle-chrome-edge": "rm -f symbols-icons-chrome-edge-extension.zip && cd dist/chrome-edge && zip -r -q ../../symbols-icons-chrome-edge-extension.zip . -x '.*'",
     "bundle-firefox": "web-ext -s ./dist/firefox/ -n symbols-icons-firefox-extension.zip -a . build --overwrite-dest",
     "bundle-safari": "tsx ./scripts/bundle-safari.ts",
+    "bundle-source": "rm -f symbols-icons-source.zip && git ls-files -z | xargs -0 zip -q symbols-icons-source.zip",
     "icons:fetch": "tsx ./scripts/fetch-icons.ts",
     "icons:check": "tsx ./scripts/update-icons.ts --check",
     "icons:update": "tsx ./scripts/update-icons.ts",
