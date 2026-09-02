@@ -111,9 +111,13 @@ Developer account.
 
 ## Packaging
 
-`pnpm build` already writes the chrome, edge and firefox zips to the repository
-root. Those are the files the stores take; they sign and produce the CRX
-themselves. Safari is packaged separately because it needs macOS and Xcode.
+`pnpm build` already writes the store zips to the repository root. Those are the
+files the stores take; they sign and produce the CRX themselves.
+
+Chrome and Edge share one zip. Both stores accept the same MV3 bundle and the
+build emits a single `chrome-edge` target, so the same file is uploaded twice
+rather than built twice. Safari is packaged separately because it needs macOS
+and Xcode.
 
 ```bash
 pnpm bundle          # re-zip without a full rebuild
