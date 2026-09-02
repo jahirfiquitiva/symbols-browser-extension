@@ -9,10 +9,8 @@ type UpstreamTheme = {
   fileNames: Record<string, string>;
   languageIds: Record<string, string>;
   folderNames: Record<string, string>;
-  rootFolderNames: Record<string, string>;
   file: string;
   folder: string;
-  rootFolder: string;
 };
 
 const associationKeys = [
@@ -20,7 +18,6 @@ const associationKeys = [
   'fileNames',
   'languageIds',
   'folderNames',
-  'rootFolderNames',
 ] as const;
 
 /**
@@ -62,7 +59,9 @@ export async function buildIconManifest(
   const missingFiles: string[] = [];
 
   for (const [name, definition] of Object.entries(theme.iconDefinitions)) {
-    const iconPath = definition.iconPath.replace(/^\.\//, '');
+    // Upstream has shipped paths with trailing whitespace (0.0.24 had eight of
+    // them), which resolve fine in VS Code but would 404 as extension URLs.
+    const iconPath = definition.iconPath.trim().replace(/^\.\//, '');
 
     if (await fs.pathExists(path.join(srcDir, iconPath))) {
       icons[name] = iconPath;
@@ -88,20 +87,19 @@ export async function buildIconManifest(
       file: theme.file,
       folder: theme.folder,
       folderOpen: FOLDER_OPEN_ICON,
-      rootFolder: theme.rootFolder,
     },
     icons,
     fileExtensions: {},
     fileNames: {},
     languageIds: {},
     folderNames: {},
-    rootFolderNames: {},
   };
 
   const dropped: string[] = [];
 
   for (const key of associationKeys) {
-    for (const [name, iconName] of Object.entries(theme[key])) {
+    // Releases do not all define every map. 0.0.24 ships no rootFolderNames.
+    for (const [name, iconName] of Object.entries(theme[key] ?? {})) {
       if (icons[iconName]) {
         manifest[key][name] = iconName;
       } else {

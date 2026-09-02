@@ -82,6 +82,10 @@ npm run lint    # biome
 npm run build   # build-src, then tsc
 ```
 
+Manifests are assembled per target from `src/manifests`: `base.json` plus a
+small per-browser fragment carrying only what differs, which today is each
+engine's minimum version.
+
 ### How it fits together
 
 The icons come from a build step, not from source control. `scripts/icon-manifest.ts`
@@ -99,24 +103,81 @@ Each supported site is one file in `src/providers` implementing the `Provider`
 type. Adding a site means adding a file there and registering it in
 `src/providers/index.ts`, with no changes anywhere else.
 
-### Updating the icon set
+### Working with the icon set
 
-Bump the pinned tag in `package.json`:
+The icon set is a dependency, not a fork, so there is nothing to merge. Three
+commands cover the whole maintenance loop.
 
-```json
-"symbols": "github:miguelsolorio/vscode-symbols#0.0.27"
+```bash
+npm run icons:check              # is there a newer Symbols release
+npm run icons:update             # move to the latest one
+npm run icons:update -- 0.0.27   # move to a specific one
 ```
 
-Then `npm install && npm run build && npm test`.
+`icons:update` reinstalls, then reports what actually changed: icons added and
+removed, and file, extension, language and folder associations added, removed or
+repointed. Without that, an update is an opaque jump from one tag to another.
+A real run looks like this:
 
-The build drops any association pointing at an icon upstream never declared,
-printing what it dropped, and fails outright if a declared icon has no file
-behind it. `scripts/icon-manifest.test.ts` covers the same ground plus the icons
-this extension hardcodes as fallbacks, so a bad release surfaces as a test
-failure rather than as missing icons in the browser.
+```
+pinned: 0.0.24
+latest: 0.0.26
+
+Icons  +41  -1
+  added:   folder-claude, folder-redis, folder-next and 38 more
+  removed: oxlint
+
+fileExtensions  +40  -0  ~3
+  changed: resx: xml -> i18n, psd: image -> photoshop
+
+folderNames  +22  -1  ~1
+  changed: .next: folder-gray -> folder-next
+```
+
+Then run `npm run build && npm test`.
+
+Note that `npm install` on its own will not move this dependency. The lockfile
+names a commit, npm treats that as satisfied, and `node_modules` quietly keeps
+the old icons while package.json claims otherwise. `icons:update` names the spec
+on the command line, which forces npm to re-resolve.
+
+To see what a release offers, which is needed whenever an icon name has to be
+written by hand:
+
+```bash
+npm run icons:list                 # all 349 icons
+npm run icons:list -- folder-git   # only names containing "folder-git"
+npm run icons:list -- --unused     # icons no association points at
+```
+
+`--unused` is the interesting one. It currently lists 48 icons that upstream
+ships but never maps to anything, `supabase` and the `nest-*` variants among
+them, which is where to look for something to wire into a provider custom
+mapping.
+
+### When an update breaks
+
+The build and the test suite both refuse to paper over a bad release.
+
+An association pointing at an icon upstream never declared is recoverable. The
+entry is dropped, the lookup falls through to a default, and the build says what
+it dropped. Two of these exist today, `less` and `yml`.
+
+A declared icon whose file is missing is not recoverable, since it would 404 in
+the browser, so it fails the build outright.
+
+`scripts/icon-manifest.test.ts` covers the same ground plus the icon names
+hardcoded in the lookup chain, so a release that renames `link` or `folder-github`
+surfaces as a test failure rather than as missing icons in a browser. Upstream
+0.0.24 has no `link` icon at all, which is what that test is for.
+
+Upstream releases also drift structurally, and the generator absorbs that: 0.0.24
+ships icon paths with trailing whitespace, and defines neither `rootFolderNames`
+nor `rootFolder`. Both are handled, with tests.
 
 Upstream's `package.json` version can lag its git tags, so the version the build
-prints may read lower than the tag pinned above. The pin is what matters.
+prints may read lower than the tag pinned in package.json. The pin is what
+matters.
 
 ### Differences from the Material extension
 

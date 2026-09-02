@@ -1,7 +1,7 @@
 {
   "name": "Symbols Icons",
   "description": "Replaces file and folder icons on GitHub, GitLab, Bitbucket and other code hosts with the Symbols icon set.",
-  "homepage_url": "https://github.com/jahirfiquitiva/symbols-icons-extension",
+  "homepage_url": "https://github.com/jahirfiquitiva/symbols-browser-extension",
   "manifest_version": 3,
   "icons": {
     "16": "icon-16.png",

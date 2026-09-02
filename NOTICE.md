@@ -105,21 +105,7 @@ SOFTWARE.
 
 ---
 
-## 3. react-symbols, by Pablo Hernández
-
-Not a dependency of this project, and no code from it is used here.
-
-It is credited because it is the other well-known port of the Symbols set, it
-is how many people first encounter these icons outside VS Code, and anyone
-looking for Symbols in a React app should be pointed there rather than at this
-extension.
-
-- Source: <https://github.com/pheralb/react-symbols>
-- License: MIT, Copyright (c) 2022 Pablo Hernández
-
----
-
-## 4. Runtime dependencies
+## 3. Runtime dependencies
 
 | Package | License | Used for |
 | --- | --- | --- |

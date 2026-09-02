@@ -1,5 +1,5 @@
 {
-  "name": "symbols-icons-browser-extension",
+  "name": "symbols-browser-extension",
   "version": "1.0.0",
   "description": "Browser extension that replaces file and folder icons on GitHub, GitLab, Bitbucket and other code hosts with Miguel Solorio's Symbols icon set.",
   "main": "src/main.ts",
@@ -8,13 +8,13 @@
     "url": "https://github.com/jahirfiquitiva"
   },
   "license": "MIT",
-  "homepage": "https://github.com/jahirfiquitiva/symbols-icons-extension#readme",
+  "homepage": "https://github.com/jahirfiquitiva/symbols-browser-extension#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jahirfiquitiva/symbols-icons-extension.git"
+    "url": "git+https://github.com/jahirfiquitiva/symbols-browser-extension.git"
   },
   "bugs": {
-    "url": "https://github.com/jahirfiquitiva/symbols-icons-extension/issues"
+    "url": "https://github.com/jahirfiquitiva/symbols-browser-extension/issues"
   },
   "dependencies": {
     "selector-observer": "2.1.6",
@@ -52,6 +52,9 @@
     "bundle-firefox": "web-ext -s ./dist/firefox/ -n symbols-icons-firefox-extension.zip -a . build --overwrite-dest",
     "bundle-safari": "tsx ./scripts/bundle-safari.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "icons:check": "tsx ./scripts/update-icons.ts --check",
+    "icons:update": "tsx ./scripts/update-icons.ts",
+    "icons:list": "tsx ./scripts/list-icons.ts"
   }
 }

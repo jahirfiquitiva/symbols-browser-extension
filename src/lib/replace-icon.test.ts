@@ -21,7 +21,6 @@ const manifest: SymbolsManifest = {
     file: 'document',
     folder: 'folder',
     folderOpen: 'folder-open',
-    rootFolder: 'folder-gray',
   },
   icons: {
     document: 'icons/files/document.svg',
@@ -44,7 +43,6 @@ const manifest: SymbolsManifest = {
   fileNames: { 'readme.md': 'readme' },
   languageIds: { yaml: 'yaml' },
   folderNames: { '.github': 'folder-github' },
-  rootFolderNames: {},
 };
 
 const createProvider = (overrides: Partial<Provider> = {}): Provider => ({

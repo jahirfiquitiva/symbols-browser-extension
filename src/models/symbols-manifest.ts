@@ -21,7 +21,6 @@ export type SymbolsManifest = {
     file: string;
     folder: string;
     folderOpen: string;
-    rootFolder: string;
   };
   /** Icon name to its SVG path, relative to the extension root. */
   icons: Record<string, string>;
@@ -29,5 +28,4 @@ export type SymbolsManifest = {
   fileNames: IconAssociations;
   languageIds: IconAssociations;
   folderNames: IconAssociations;
-  rootFolderNames: IconAssociations;
 };
