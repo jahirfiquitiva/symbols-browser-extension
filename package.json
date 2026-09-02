@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "selector-observer": "2.1.6",
-    "symbols": "github:miguelsolorio/vscode-symbols#0.0.26",
     "webextension-polyfill": "0.12.0"
   },
   "devDependencies": {
@@ -30,7 +29,6 @@
     "esbuild": "0.25.6",
     "fs-extra": "11.3.0",
     "jsdom": "27.0.0",
-    "npm-run-all": "4.1.5",
     "rimraf": "6.0.1",
     "sharp": "0.34.3",
     "tsx": "4.22.3",
@@ -39,22 +37,25 @@
     "web-ext": "8.9.0"
   },
   "scripts": {
-    "prebuild": "rimraf --glob *.zip ./dist",
-    "build": "run-s build-src typecheck",
+    "prepare": "tsx ./scripts/fetch-icons.ts",
+    "clean": "rimraf --glob *.zip ./dist",
+    "build": "pnpm run clean && pnpm run icons:fetch && pnpm run build-src && pnpm run typecheck",
     "build-src": "tsx ./scripts/build-src.ts",
     "typecheck": "tsc -p ./",
     "lint": "biome check ./src ./scripts",
     "lint:fix": "biome check --write ./src ./scripts",
     "format": "biome format --write ./src ./scripts",
-    "bundle": "run-s bundle-chrome bundle-edge bundle-firefox",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "bundle": "pnpm run bundle-chrome && pnpm run bundle-edge && pnpm run bundle-firefox",
     "bundle-chrome": "rm -f symbols-icons-chrome-extension.zip && cd dist/chrome-edge && zip -r -q ../../symbols-icons-chrome-extension.zip . -x '.*'",
     "bundle-edge": "rm -f symbols-icons-edge-extension.zip && cd dist/chrome-edge && zip -r -q ../../symbols-icons-edge-extension.zip . -x '.*'",
     "bundle-firefox": "web-ext -s ./dist/firefox/ -n symbols-icons-firefox-extension.zip -a . build --overwrite-dest",
     "bundle-safari": "tsx ./scripts/bundle-safari.ts",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "icons:fetch": "tsx ./scripts/fetch-icons.ts",
     "icons:check": "tsx ./scripts/update-icons.ts --check",
     "icons:update": "tsx ./scripts/update-icons.ts",
     "icons:list": "tsx ./scripts/list-icons.ts"
-  }
+  },
+  "packageManager": "pnpm@11.5.3"
 }

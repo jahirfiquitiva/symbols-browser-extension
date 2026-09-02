@@ -7,7 +7,10 @@ src/generated/
 # Safari Xcode project, produced by `npm run bundle-safari`
 safari/
 
-# Upstream icon set, resolved as an npm dependency
+# The Symbols icon set, fetched by scripts/fetch-icons.ts from the release
+# pinned in symbols.json. Deliberately never committed.
+vendor/
+
 node_modules/
 
 # Reference repositories, kept locally for comparison only

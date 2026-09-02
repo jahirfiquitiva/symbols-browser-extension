@@ -1,24 +1,25 @@
 import { buildIconManifest } from './icon-manifest';
 import {
   diffManifests,
+  fetchIcons,
   formatList,
-  installPin,
-  listUpstreamTags,
+  listReleases,
   type ManifestDiff,
   readPin,
+  writePin,
 } from './upstream';
 
 /**
  * Moves the pinned Symbols release forward and reports what changed.
  *
- * The icon set is a dependency rather than a fork, so updating it is a one-line
- * change. The value here is the report: without it an update is an opaque jump
- * from one tag to another, and nothing says which icons appeared or which file
- * associations moved.
+ * The icon set is fetched rather than depended on, so updating is a change to
+ * symbols.json. The value here is the report: without it an update is an opaque
+ * jump from one tag to another, with nothing saying which icons appeared or
+ * which file associations moved.
  *
- *   npm run icons:check        does a newer release exist
- *   npm run icons:update       move to the latest release
- *   npm run icons:update 0.0.27  move to a specific release
+ *   pnpm icons:check           does a newer release exist
+ *   pnpm icons:update          move to the latest release
+ *   pnpm icons:update 0.0.27   move to a specific release
  */
 const printDiff = (diff: ManifestDiff): void => {
   const { added, removed } = diff.icons;
@@ -49,26 +50,31 @@ async function main(): Promise<void> {
   const checkOnly = args.includes('--check');
   const requested = args.find((arg) => !arg.startsWith('--'));
 
-  const current = await readPin();
-  const tags = listUpstreamTags();
-  const latest = tags[tags.length - 1];
-  const target = requested ?? latest;
+  const pin = await readPin();
+  const releases = listReleases(pin.repository);
+  const latest = releases[releases.length - 1];
+  const target = requested
+    ? releases.find((release) => release.tag === requested)
+    : latest;
 
-  console.log(`pinned: ${current}\nlatest: ${latest}`);
+  console.log(`pinned: ${pin.tag}\nlatest: ${latest.tag}`);
 
-  if (requested && !tags.includes(requested)) {
+  if (!target) {
     throw new Error(
-      `${requested} is not an upstream release. Known: ${tags.slice(-8).join(', ')}`
+      `${requested} is not an upstream release. Known: ${releases
+        .slice(-8)
+        .map((release) => release.tag)
+        .join(', ')}`
     );
   }
 
-  if (target === current) {
+  if (target.commit === pin.commit) {
     console.log('\nAlready on that release.');
     return;
   }
 
   if (checkOnly) {
-    console.log(`\nRun \`npm run icons:update\` to move to ${latest}.`);
+    console.log(`\nRun \`pnpm icons:update\` to move to ${latest.tag}.`);
     return;
   }
 
@@ -82,21 +88,11 @@ async function main(): Promise<void> {
       return null;
     });
 
-  console.log(`\nUpdating to ${target}...`);
+  console.log(`\nUpdating to ${target.tag}...`);
 
-  if (!installPin(target)) {
-    // Leaving a pin that was never installed would make the next build lie
-    // about which release it came from.
-    installPin(current);
-    throw new Error(`npm install failed, reverted the pin to ${current}`);
-  }
-
-  const installed = await readPin();
-  if (installed !== target) {
-    throw new Error(
-      `npm reports ${installed} after installing ${target}. The pin and node_modules may disagree.`
-    );
-  }
+  const updated = { ...pin, tag: target.tag, commit: target.commit };
+  await writePin(updated);
+  await fetchIcons(updated);
 
   const { manifest: after, dropped } = await buildIconManifest();
 
@@ -112,7 +108,7 @@ async function main(): Promise<void> {
     );
   }
 
-  console.log('\nNow run `npm run build && npm test`.');
+  console.log('\nNow run `pnpm build && pnpm test`.');
 }
 
 main().catch((error) => {

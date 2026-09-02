@@ -1,6 +1,9 @@
 import * as path from 'node:path';
 import * as fs from 'fs-extra';
 import type { SymbolsManifest } from '../src/models/symbols-manifest';
+import { upstreamDir } from './upstream';
+
+export { upstreamDir };
 
 /** Upstream's VS Code icon theme, as far as this module cares about it. */
 type UpstreamTheme = {
@@ -29,14 +32,6 @@ const associationKeys = [
  */
 export const FOLDER_OPEN_ICON = 'folder-open';
 const FOLDER_OPEN_PATH = 'icons/folders/folder-open.svg';
-
-/** Where the Symbols icon set lives once npm has resolved it. */
-export const upstreamDir = path.resolve(
-  __dirname,
-  '..',
-  'node_modules',
-  'symbols'
-);
 
 /**
  * Turns upstream's VS Code icon theme into the manifest the extension ships.

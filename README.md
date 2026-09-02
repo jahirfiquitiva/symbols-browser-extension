@@ -28,13 +28,14 @@ SourceForge and Tangled.
 
 Self-hosted instances are not supported. Doing that requires asking for
 permission on every domain, which is a much larger permission prompt than this
-extension needs today. It currently asks for `storage` and nothing else.
+extension needs today. It currently asks for `storage`, plus `activeTab` so the
+popup can tell which site you are on when you open it.
 
 ## Install from source
 
 ```bash
-npm install
-npm run build
+pnpm install
+pnpm build
 ```
 
 That writes one unpacked extension per target under `dist/`.
@@ -50,7 +51,7 @@ when Firefox restarts.
 extra step:
 
 ```bash
-npm run bundle-safari
+pnpm bundle-safari
 ```
 
 That generates an Xcode project in `safari/`. Open it, select the
@@ -60,7 +61,7 @@ Safari's extension settings, where the extension needs to be enabled and granted
 access to the sites you want it on.
 
 The Xcode project references `dist/safari` by relative path rather than copying
-it, so `npm run build` is enough to pick up code changes. Re-running
+it, so `pnpm build` is enough to pick up code changes. Re-running
 `bundle-safari` regenerates the project and discards any Xcode settings, signing
 included, so only do that when the manifest changes.
 
@@ -70,17 +71,20 @@ Developer account.
 ## Packaging
 
 ```bash
-npm run bundle          # chrome, edge and firefox zips
-npm run bundle-safari   # xcode project
+pnpm bundle          # chrome, edge and firefox zips
+pnpm bundle-safari   # xcode project
 ```
 
 ## Development
 
 ```bash
-npm test        # vitest
-npm run lint    # biome
-npm run build   # build-src, then tsc
+pnpm test     # vitest
+pnpm lint     # biome
+pnpm build    # fetch icons, generate the manifest, bundle, typecheck
 ```
+
+This project uses pnpm. `pnpm-workspace.yaml` allows build scripts for esbuild
+and sharp, which need them, and nothing else.
 
 Manifests are assembled per target from `src/manifests`: `base.json` plus a
 small per-browser fragment carrying only what differs, which today is each
@@ -88,11 +92,19 @@ engine's minimum version.
 
 ### How it fits together
 
-The icons come from a build step, not from source control. `scripts/icon-manifest.ts`
-reads upstream's `symbol-icon-theme.json` out of `node_modules/symbols` and
-turns it into `src/generated/icon-manifest.json`: one map of icon names to SVG
-paths, plus the file name, extension, language and folder associations. That
-file is gitignored, as is everything under `dist/`.
+The icons come from a build step, not from source control. `scripts/fetch-icons.ts`
+downloads the release pinned in `symbols.json` and extracts it into `vendor/`.
+`scripts/icon-manifest.ts` then reads upstream's `symbol-icon-theme.json` from
+there and turns it into `src/generated/icon-manifest.json`: one map of icon
+names to SVG paths, plus the file name, extension, language and folder
+associations. All three of `vendor/`, `src/generated/` and `dist/` are
+gitignored.
+
+The icon set is fetched rather than installed as a dependency. Package managers
+insist on running a git-hosted package's build scripts, and upstream's `prepare`
+would pull in its own toolchain to build a VS Code extension this project never
+uses. Fetching sidesteps that, keeps installs free of upstream code execution,
+and works the same whichever package manager you use.
 
 `src/main.ts` runs on a supported page, resolves the site to a provider, and
 watches for file rows. `src/lib/replace-icon.ts` turns a file name into an icon
@@ -111,16 +123,16 @@ them, so a site that does surface such a row only needs the provider to say so.
 
 ### Working with the icon set
 
-The icon set is a dependency, not a fork, so there is nothing to merge. Three
-commands cover the whole maintenance loop.
+The icon set is pinned in `symbols.json`, not forked, so there is nothing to
+merge. Three commands cover the whole maintenance loop.
 
 ```bash
-npm run icons:check              # is there a newer Symbols release
-npm run icons:update             # move to the latest one
-npm run icons:update -- 0.0.27   # move to a specific one
+pnpm icons:check             # is there a newer Symbols release
+pnpm icons:update            # move to the latest one
+pnpm icons:update 0.0.27     # move to a specific one
 ```
 
-`icons:update` reinstalls, then reports what actually changed: icons added and
+`icons:update` rewrites the pin, re-fetches, then reports what changed: icons added and
 removed, and file, extension, language and folder associations added, removed or
 repointed. Without that, an update is an opaque jump from one tag to another.
 A real run looks like this:
@@ -140,20 +152,15 @@ folderNames  +22  -1  ~1
   changed: .next: folder-gray -> folder-next
 ```
 
-Then run `npm run build && npm test`.
-
-Note that `npm install` on its own will not move this dependency. The lockfile
-names a commit, npm treats that as satisfied, and `node_modules` quietly keeps
-the old icons while package.json claims otherwise. `icons:update` names the spec
-on the command line, which forces npm to re-resolve.
+Then run `pnpm build && pnpm test`.
 
 To see what a release offers, which is needed whenever an icon name has to be
 written by hand:
 
 ```bash
-npm run icons:list                 # all 349 icons
-npm run icons:list -- folder-git   # only names containing "folder-git"
-npm run icons:list -- --unused     # icons no association points at
+pnpm icons:list              # all 349 icons
+pnpm icons:list folder-git   # only names containing "folder-git"
+pnpm icons:list --unused     # icons no association points at
 ```
 
 `--unused` is the interesting one. It currently lists 48 icons that upstream
@@ -182,7 +189,7 @@ ships icon paths with trailing whitespace, and defines neither `rootFolderNames`
 nor `rootFolder`. Both are handled, with tests.
 
 Upstream's `package.json` version can lag its git tags, so the version the build
-prints may read lower than the tag pinned in package.json. The pin is what
+prints may read lower than the tag pinned in symbols.json. The pin is what
 matters.
 
 ### Differences from the Material extension

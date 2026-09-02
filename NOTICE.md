@@ -18,17 +18,24 @@ project designed none of them and claims no rights over them. It is a viewer.
 - License: MIT
 
 The SVG files and the icon-to-filename mappings in `symbol-icon-theme.json` are
-consumed directly from that repository, pinned as an npm dependency in
-`package.json`:
+taken directly from that repository at the release pinned in `symbols.json`:
 
 ```json
-"symbols": "github:miguelsolorio/vscode-symbols#0.0.26"
+{
+  "repository": "miguelsolorio/vscode-symbols",
+  "tag": "0.0.26",
+  "commit": "5c207346a91bba200cc666e43ce6fdac1fb72f80"
+}
 ```
 
-The icons are **not** vendored into this repository. They are fetched into
-`node_modules` at install time and copied into `dist/` at build time, and both
-of those paths are gitignored. Updating the icon set means bumping that tag.
-Nothing is forked, so upstream stays the single source of truth.
+The icons are **not** vendored into this repository. `scripts/fetch-icons.ts`
+downloads that exact commit and extracts it into `vendor/`, and the build copies
+what it needs into `dist/`. Both paths are gitignored. Updating the icon set
+means bumping that pin. Nothing is forked, so upstream stays the single source
+of truth.
+
+Upstream's LICENSE file is fetched alongside the icons and kept in `vendor/`, so
+the licence travels with the artwork it covers.
 
 ```
 MIT License

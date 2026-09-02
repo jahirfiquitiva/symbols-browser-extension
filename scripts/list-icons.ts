@@ -8,9 +8,9 @@ import { readPin } from './upstream';
  * every provider custom mapping and every fallback in the lookup chain. Guessing
  * a name that upstream does not declare fails silently at runtime.
  *
- *   npm run icons:list             every icon
- *   npm run icons:list folder      only names containing "folder"
- *   npm run icons:list -- --unused icons no association points at
+ *   pnpm icons:list             every icon
+ *   pnpm icons:list folder      only names containing "folder"
+ *   pnpm icons:list --unused    icons no association points at
  */
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -45,7 +45,7 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    `\n${rows.length} of ${Object.keys(manifest.icons).length} icons in symbols@${pin}`
+    `\n${rows.length} of ${Object.keys(manifest.icons).length} icons in symbols ${pin.tag}`
   );
   if (!unusedOnly) {
     console.log('* means no file or folder association resolves to it.');

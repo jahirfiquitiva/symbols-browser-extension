@@ -1,0 +1,18 @@
+# pnpm blocks dependency build scripts by default. These two genuinely need
+# theirs: esbuild fetches its platform binary, and sharp builds the native
+# bindings used to rasterise the extension logo. Nothing else in the tree needs
+# one, so this stays an explicit allowlist rather than a blanket opt-out.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  # A legacy polyfill for child_process.spawnSync, pulled in transitively by
+  # web-ext. Its native build is dead weight on any supported Node, so it is
+  # explicitly declined rather than left to warn on every install.
+  spawn-sync: false
+# Explicit supply-chain security controls
+strictDepBuilds: true
+minimumReleaseAge: 720 # minutes = 12 hours
+trustPolicy: no-downgrade
+# Allow versions from 1 year ago or older, assuming they are safe due to their age,
+# to be installed as they may lack a process for publishing with signatures or provenance
+trustPolicyIgnoreAfter: 525600 # minutes = ~1 year

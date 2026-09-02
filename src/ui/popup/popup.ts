@@ -32,12 +32,30 @@ const renderIconSizes = (select: HTMLSelectElement, current: IconSize) => {
   }
 };
 
+const showNotice = (message: string) => {
+  const notice = byId('notice');
+  notice.textContent = message;
+  notice.hidden = false;
+};
+
 const init = async () => {
   const tab = await getCurrentTab();
-  const provider = tab?.url ? getGitProvider(tab.url) : null;
 
-  if (!provider || !tab?.url) {
-    byId('unsupported').hidden = false;
+  // Browsers blank out tab.url unless the extension holds host permission for
+  // that tab. `activeTab` supplies it when the popup is opened, so an absent
+  // url means the page is off limits entirely, such as a browser settings
+  // page, rather than merely unsupported. Saying "not supported" there would
+  // be wrong, and it is what this popup used to do on every site.
+  if (!tab?.url) {
+    showNotice('Symbols Icons cannot read this page.');
+    return;
+  }
+
+  const provider = getGitProvider(tab.url);
+  if (!provider) {
+    showNotice(
+      'Symbols Icons does not run on this site. Open a repository on a supported site to change its settings.'
+    );
     return;
   }
 
