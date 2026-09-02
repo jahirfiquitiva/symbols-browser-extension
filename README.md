@@ -111,8 +111,12 @@ Developer account.
 
 ## Packaging
 
+`pnpm build` already writes the chrome, edge and firefox zips to the repository
+root. Those are the files the stores take; they sign and produce the CRX
+themselves. Safari is packaged separately because it needs macOS and Xcode.
+
 ```bash
-pnpm bundle          # chrome, edge and firefox zips
+pnpm bundle          # re-zip without a full rebuild
 pnpm bundle-safari   # xcode project
 ```
 
@@ -121,7 +125,7 @@ pnpm bundle-safari   # xcode project
 ```bash
 pnpm test     # vitest
 pnpm lint     # biome
-pnpm build    # fetch icons, generate the manifest, bundle, typecheck
+pnpm build    # fetch icons, generate the manifest, bundle, typecheck, zip
 ```
 
 This project uses pnpm. `pnpm-workspace.yaml` allows build scripts for esbuild

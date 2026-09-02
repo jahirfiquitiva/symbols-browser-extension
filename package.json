@@ -35,16 +35,17 @@
     "tsx": "4.22.3",
     "typescript": "5.8.3",
     "vitest": "3.2.4",
-    "web-ext": "8.9.0"
+    "web-ext": "10.6.0"
   },
   "scripts": {
     "prepare": "tsx ./scripts/fetch-icons.ts",
     "clean": "rimraf --glob *.zip ./dist",
-    "build": "pnpm run clean && pnpm run icons:fetch && pnpm run build-src && pnpm run typecheck",
+    "build": "pnpm run clean && pnpm run icons:fetch && pnpm run build-src && pnpm run typecheck && pnpm run lint:ext && pnpm run bundle",
     "build-src": "tsx ./scripts/build-src.ts",
     "typecheck": "tsc -p ./",
     "lint": "biome check ./src ./scripts",
     "lint:fix": "biome check --write ./src ./scripts",
+    "lint:ext": "web-ext lint -s ./dist/firefox",
     "format": "biome format --write ./src ./scripts",
     "test": "vitest run",
     "test:watch": "vitest",
