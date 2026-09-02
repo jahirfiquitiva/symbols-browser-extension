@@ -79,7 +79,10 @@ async function buildTarget(
     // Only the SVGs the manifest actually resolves to, so nothing unreferenced
     // ships and web_accessible_resources stays an accurate description of the
     // bundle. They are copied from the dependency, never from this repository.
-    ...Object.values(manifest.icons).map((iconPath) =>
+    // Deduplicated: two icon names can alias one SVG (folder-auth and
+    // folder-lock, go-mod and go-pink), and two concurrent copies of the same
+    // destination race on fs-extra's unlink-before-write.
+    ...[...new Set(Object.values(manifest.icons))].map((iconPath) =>
       fs.copy(path.join(upstreamSrcDir, iconPath), path.join(outDir, iconPath))
     ),
     fs.copy(logoIconsDir, outDir),

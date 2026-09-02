@@ -1,7 +1,7 @@
 {
   "name": "symbols-browser-extension",
   "version": "1.0.0",
-  "description": "Browser extension that replaces file and folder icons on GitHub, GitLab, Bitbucket and other code hosts with Miguel Solorio's Symbols icon set.",
+  "description": "File and folder icons for GitHub, GitLab, Bitbucket and other code hosts, using the Symbols icon theme from VS Code.",
   "main": "src/main.ts",
   "author": {
     "name": "Jahir Fiquitiva",

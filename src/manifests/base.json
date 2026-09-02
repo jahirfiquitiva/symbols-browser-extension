@@ -1,6 +1,6 @@
 {
-  "name": "Symbols Icons",
-  "description": "Replaces file and folder icons on GitHub, GitLab, Bitbucket and other code hosts with the Symbols icon set.",
+  "name": "Symbols Icons for GitHub, GitLab and more",
+  "description": "File and folder icons for GitHub, GitLab, Bitbucket and other code hosts, using the Symbols icon theme from VS Code.",
   "homepage_url": "https://github.com/jahirfiquitiva/symbols-browser-extension",
   "manifest_version": 3,
   "icons": {
