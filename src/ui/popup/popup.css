@@ -170,6 +170,7 @@ body {
 .footer a {
   color: var(--text-muted);
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .footer a:hover {

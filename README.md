@@ -241,6 +241,15 @@ symlink icons, so those fall back to the folder and link icons. It ships one
 `folder-open` and no per-folder open variants, so an expanded folder that has
 its own icon keeps it, and only a plain folder gets the open one.
 
+## Author
+
+Built by Jahir Fiquitiva ([@jahirfiquitiva](https://github.com/jahirfiquitiva)).
+The icons are Miguel Solorio's, as above.
+
+- Website: <https://jahir.dev>
+- Other links: <https://bio.jahir.dev>
+- Contact: <https://jahir.dev/contact> or <hola@jahir.dev>
+
 ## License
 
 MIT. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).

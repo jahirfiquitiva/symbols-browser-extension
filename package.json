@@ -5,7 +5,8 @@
   "main": "src/main.ts",
   "author": {
     "name": "Jahir Fiquitiva",
-    "url": "https://github.com/jahirfiquitiva"
+    "email": "hola@jahir.dev",
+    "url": "https://jahir.dev"
   },
   "license": "MIT",
   "homepage": "https://github.com/jahirfiquitiva/symbols-browser-extension#readme",
