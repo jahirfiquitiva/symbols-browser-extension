@@ -31,6 +31,7 @@ describe('icon manifest', () => {
       manifest.fileNames,
       manifest.languageIds,
       manifest.folderNames,
+      manifest.rootFolderNames,
     ];
 
     const unresolved = associations
@@ -49,6 +50,7 @@ describe('icon manifest', () => {
       manifest.defaults.file,
       manifest.defaults.folder,
       manifest.defaults.folderOpen,
+      manifest.defaults.rootFolder,
       'link',
       'github',
       'folder-github',
@@ -76,7 +78,7 @@ describe('generating a manifest from a broken release', () => {
   const writeUpstream = async (
     dir: string,
     iconDefinitions: Record<string, { iconPath: string }>,
-    options: { omit?: 'languageIds' } = {}
+    options: { omit?: 'languageIds' | 'rootFolderNames' } = {}
   ) => {
     await fs.outputJson(path.join(dir, 'package.json'), { version: '0.0.1' });
     await fs.outputFile(path.join(dir, 'src/icons/files/thing.svg'), '<svg/>');
@@ -91,6 +93,7 @@ describe('generating a manifest from a broken release', () => {
       fileNames: {},
       languageIds: {},
       folderNames: {},
+      rootFolderNames: {},
       file: 'thing',
       folder: 'thing',
     };
@@ -110,6 +113,23 @@ describe('generating a manifest from a broken release', () => {
     const { manifest } = await buildIconManifest(dir);
 
     expect(manifest.icons.thing).toBe('icons/files/thing.svg');
+    await fs.remove(dir);
+  });
+
+  it('falls back to the folder icon when a release defines no rootFolder', async () => {
+    // 0.0.24 defines neither the key nor the map. Leaving rootFolder undefined
+    // would put a name in the manifest that resolves to nothing.
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'symbols-root-'));
+    await writeUpstream(
+      dir,
+      { thing: { iconPath: './icons/files/thing.svg' } },
+      { omit: 'rootFolderNames' }
+    );
+
+    const { manifest } = await buildIconManifest(dir);
+
+    expect(manifest.defaults.rootFolder).toBe('thing');
+    expect(manifest.rootFolderNames).toEqual({});
     await fs.remove(dir);
   });
 

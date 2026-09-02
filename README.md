@@ -103,6 +103,12 @@ Each supported site is one file in `src/providers` implementing the `Provider`
 type. Adding a site means adding a file there and registering it in
 `src/providers/index.ts`, with no changes anywhere else.
 
+One hook on that type, `getIsRoot`, has no implementations. These sites list a
+repository's contents rather than a row standing for the repository itself, so
+there is nothing to detect yet. The manifest still carries upstream's
+`rootFolderNames` and root folder default, and the lookup chain still consults
+them, so a site that does surface such a row only needs the provider to say so.
+
 ### Working with the icon set
 
 The icon set is a dependency, not a fork, so there is nothing to merge. Three

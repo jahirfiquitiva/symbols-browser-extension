@@ -21,6 +21,7 @@ export type SymbolsManifest = {
     file: string;
     folder: string;
     folderOpen: string;
+    rootFolder: string;
   };
   /** Icon name to its SVG path, relative to the extension root. */
   icons: Record<string, string>;
@@ -28,4 +29,12 @@ export type SymbolsManifest = {
   fileNames: IconAssociations;
   languageIds: IconAssociations;
   folderNames: IconAssociations;
+  /**
+   * Icons for the repository root itself. Upstream ships this map empty today,
+   * and it is only reachable once a provider implements `getIsRoot`, which none
+   * do yet: these sites render the root's contents rather than a row standing
+   * for the root. Carried so that supporting it later is a provider change
+   * rather than a change to the manifest and everything that reads it.
+   */
+  rootFolderNames: IconAssociations;
 };

@@ -9,8 +9,10 @@ type UpstreamTheme = {
   fileNames: Record<string, string>;
   languageIds: Record<string, string>;
   folderNames: Record<string, string>;
+  rootFolderNames?: Record<string, string>;
   file: string;
   folder: string;
+  rootFolder?: string;
 };
 
 const associationKeys = [
@@ -18,6 +20,7 @@ const associationKeys = [
   'fileNames',
   'languageIds',
   'folderNames',
+  'rootFolderNames',
 ] as const;
 
 /**
@@ -87,12 +90,20 @@ export async function buildIconManifest(
       file: theme.file,
       folder: theme.folder,
       folderOpen: FOLDER_OPEN_ICON,
+      // Not every release defines this (0.0.24 does not) and a release could
+      // point it at an icon it never declares, so degrade to the plain folder
+      // rather than shipping a name that resolves to nothing.
+      rootFolder:
+        theme.rootFolder && icons[theme.rootFolder]
+          ? theme.rootFolder
+          : theme.folder,
     },
     icons,
     fileExtensions: {},
     fileNames: {},
     languageIds: {},
     folderNames: {},
+    rootFolderNames: {},
   };
 
   const dropped: string[] = [];

@@ -91,6 +91,7 @@ const associationKeys = [
   'fileNames',
   'languageIds',
   'folderNames',
+  'rootFolderNames',
 ] as const;
 
 /** What changed between two generated manifests, for the update report. */

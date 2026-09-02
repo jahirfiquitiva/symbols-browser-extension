@@ -29,6 +29,13 @@ export type Provider = {
   getIsSubmodule: (params: { row: HTMLElement; icon: HTMLElement }) => boolean;
   getIsSymlink: (params: { row: HTMLElement; icon: HTMLElement }) => boolean;
   getIsExpanded?: (params: { row: HTMLElement; icon: HTMLElement }) => boolean;
+  /**
+   * Whether this row stands for the repository root rather than something
+   * inside it. No provider implements this yet, since these sites list the
+   * root's contents instead of the root itself. Implementing it is all that is
+   * needed to activate the manifest's `rootFolderNames`.
+   */
+  getIsRoot?: (params: { row: HTMLElement; icon: HTMLElement }) => boolean;
   /** How to swap the site's icon element for ours. Varies wildly per site. */
   replaceIcon: (oldIcon: HTMLElement, newIcon: HTMLElement) => void;
   /**

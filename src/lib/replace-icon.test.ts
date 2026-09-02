@@ -21,9 +21,11 @@ const manifest: SymbolsManifest = {
     file: 'document',
     folder: 'folder',
     folderOpen: 'folder-open',
+    rootFolder: 'folder-gray',
   },
   icons: {
     document: 'icons/files/document.svg',
+    'folder-gray': 'icons/folders/folder-gray.svg',
     folder: 'icons/folders/folder.svg',
     'folder-open': 'icons/folders/folder-open.svg',
     'folder-github': 'icons/folders/folder-github.svg',
@@ -43,6 +45,7 @@ const manifest: SymbolsManifest = {
   fileNames: { 'readme.md': 'readme' },
   languageIds: { yaml: 'yaml' },
   folderNames: { '.github': 'folder-github' },
+  rootFolderNames: { 'my-repo': 'folder-github' },
 };
 
 const createProvider = (overrides: Partial<Provider> = {}): Provider => ({
@@ -129,6 +132,20 @@ describe('icon lookup', () => {
       expect(
         resolve('whatever', { ...asFolder, getIsExpanded: () => true })
       ).toBe('folder-open');
+    });
+
+    it('uses the root icon for a row standing for the repository itself', () => {
+      // No provider implements getIsRoot today. This covers the wiring so that
+      // adding one is a provider change and nothing else.
+      expect(resolve('anything', { ...asFolder, getIsRoot: () => true })).toBe(
+        'folder-gray'
+      );
+    });
+
+    it('matches a named root folder', () => {
+      expect(resolve('my-repo', { ...asFolder, getIsRoot: () => true })).toBe(
+        'folder-github'
+      );
     });
 
     it('keeps a named folder icon when it is expanded', () => {

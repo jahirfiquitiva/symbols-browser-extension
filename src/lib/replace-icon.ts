@@ -86,6 +86,16 @@ export function resolveIconName(
     );
   }
 
+  // Only reachable for a provider that implements getIsRoot. None do yet, so
+  // in practice every directory falls through to the folder lookup below.
+  if (provider.getIsRoot?.(params)) {
+    return (
+      manifest.rootFolderNames[fileName] ??
+      manifest.rootFolderNames[lowerFileName] ??
+      manifest.defaults.rootFolder
+    );
+  }
+
   const folderIcon =
     manifest.folderNames[fileName] ??
     manifest.folderNames[lowerFileName] ??

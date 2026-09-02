@@ -28,6 +28,7 @@ async function main(): Promise<void> {
       manifest.fileNames,
       manifest.languageIds,
       manifest.folderNames,
+      manifest.rootFolderNames,
     ].flatMap((associations) => Object.values(associations))
   );
 

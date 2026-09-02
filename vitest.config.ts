@@ -18,12 +18,14 @@ if (!fs.existsSync(manifestPath)) {
         file: 'document',
         folder: 'folder',
         folderOpen: 'folder-open',
+        rootFolder: 'folder-gray',
       },
       icons: {},
       fileExtensions: {},
       fileNames: {},
       languageIds: {},
       folderNames: {},
+      rootFolderNames: {},
     })
   );
 }
