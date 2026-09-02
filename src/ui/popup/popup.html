@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symbols Icons</title>
+    <link rel="stylesheet" href="popup.css" />
+    <script type="module" src="popup.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <img class="header__logo" src="icon-48.png" alt="" />
+      <h1 class="header__title">Symbols Icons</h1>
+    </header>
+
+    <main class="content">
+      <p id="unsupported" class="notice" hidden>
+        Symbols Icons does not run on this page. Open a repository on a
+        supported site to change its settings.
+      </p>
+
+      <div id="settings" hidden>
+        <label class="field field--inline" for="enabled-here">
+          <span class="field__label">
+            Enable on
+            <span id="domain" class="field__domain"></span>
+          </span>
+          <input id="enabled-here" type="checkbox" class="switch" />
+        </label>
+
+        <label class="field field--inline" for="enabled-everywhere">
+          <span class="field__label">Enable on all supported sites</span>
+          <input id="enabled-everywhere" type="checkbox" class="switch" />
+        </label>
+
+        <label class="field" for="icon-size">
+          <span class="field__label">Icon size</span>
+          <select id="icon-size" class="select"></select>
+        </label>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <a href="https://github.com/miguelsolorio/vscode-symbols" target="_blank" rel="noreferrer">
+        Icons by Miguel Solorio
+      </a>
+      <a href="https://github.com/jahirfiquitiva/symbols-icons-extension" target="_blank" rel="noreferrer">
+        Source
+      </a>
+    </footer>
+  </body>
+</html>

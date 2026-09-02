@@ -1,0 +1,20 @@
+# Build output. Symbols SVGs are copied here from node_modules at build time and
+# are deliberately never committed to this repository.
+dist/
+*.zip
+src/generated/
+
+# Safari Xcode project, produced by `npm run bundle-safari`
+safari/
+
+# Upstream icon set, resolved as an npm dependency
+node_modules/
+
+# Reference repositories, kept locally for comparison only
+reference/
+
+*.log
+.DS_Store
+.env
+.idea
+Thumbs.db

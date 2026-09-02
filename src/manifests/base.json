@@ -1,0 +1,59 @@
+{
+  "name": "Symbols Icons",
+  "description": "Replaces file and folder icons on GitHub, GitLab, Bitbucket and other code hosts with the Symbols icon set.",
+  "homepage_url": "https://github.com/jahirfiquitiva/symbols-icons-extension",
+  "manifest_version": 3,
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://github.com/*",
+        "*://gitlab.com/*",
+        "*://bitbucket.org/*",
+        "*://dev.azure.com/*",
+        "*://*.visualstudio.com/*",
+        "*://gitea.com/*",
+        "*://codeberg.org/*",
+        "*://gitee.com/*",
+        "*://sourceforge.net/*",
+        "*://tangled.org/*"
+      ],
+      "js": ["./main.js"],
+      "css": ["./injected-styles.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/files/*.svg", "icons/folders/*.svg"],
+      "matches": [
+        "*://github.com/*",
+        "*://gitlab.com/*",
+        "*://bitbucket.org/*",
+        "*://dev.azure.com/*",
+        "*://*.visualstudio.com/*",
+        "*://gitea.com/*",
+        "*://codeberg.org/*",
+        "*://gitee.com/*",
+        "*://sourceforge.net/*",
+        "*://tangled.org/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "Symbols Icons",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  }
+}

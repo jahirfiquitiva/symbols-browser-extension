@@ -1,0 +1,39 @@
+/*
+ * Injected into every supported site. Scoped to elements this extension owns,
+ * with one exception per site noted below.
+ */
+
+body[data-symbols-icons-extension-size="sm"]
+[data-symbols-icons-extension="icon"] {
+  transform: scale(0.875);
+}
+
+body[data-symbols-icons-extension-size="lg"]
+  [data-symbols-icons-extension="icon"] {
+  transform: scale(1.125);
+}
+
+body[data-symbols-icons-extension-size="xl"]
+  [data-symbols-icons-extension="icon"] {
+  transform: scale(1.25);
+}
+
+/* Azure DevOps renders its icons as font glyphs in a ::before pseudo element,
+   which would show through underneath ours. */
+.symbols-icons-extension-hide-pseudo::before {
+  display: none !important;
+}
+
+/* GitHub sizes these two icons for a glyph, not an image, and they end up
+   touching the file name without this. */
+.octicon-package[data-symbols-icons-extension],
+.octicon-file-zip[data-symbols-icons-extension] {
+  margin-right: 5px;
+}
+
+/* GitHub's release asset rows lose their vertical alignment once the icon is an
+   image rather than an inline svg. */
+.releases-download-list .item a {
+  display: flex;
+  align-items: center;
+}

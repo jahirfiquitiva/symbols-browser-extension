@@ -1,0 +1,57 @@
+{
+  "name": "symbols-icons-browser-extension",
+  "version": "1.0.0",
+  "description": "Browser extension that replaces file and folder icons on GitHub, GitLab, Bitbucket and other code hosts with Miguel Solorio's Symbols icon set.",
+  "main": "src/main.ts",
+  "author": {
+    "name": "Jahir Fiquitiva",
+    "url": "https://github.com/jahirfiquitiva"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/jahirfiquitiva/symbols-icons-extension#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jahirfiquitiva/symbols-icons-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jahirfiquitiva/symbols-icons-extension/issues"
+  },
+  "dependencies": {
+    "selector-observer": "2.1.6",
+    "symbols": "github:miguelsolorio/vscode-symbols#0.0.26",
+    "webextension-polyfill": "0.12.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2",
+    "@testing-library/dom": "10.4.1",
+    "@types/fs-extra": "11.0.4",
+    "@types/node": "24.0.14",
+    "@types/webextension-polyfill": "0.12.3",
+    "esbuild": "0.25.6",
+    "fs-extra": "11.3.0",
+    "jsdom": "27.0.0",
+    "npm-run-all": "4.1.5",
+    "rimraf": "6.0.1",
+    "sharp": "0.34.3",
+    "tsx": "4.22.3",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4",
+    "web-ext": "8.9.0"
+  },
+  "scripts": {
+    "prebuild": "rimraf --glob *.zip ./dist",
+    "build": "run-s build-src typecheck",
+    "build-src": "tsx ./scripts/build-src.ts",
+    "typecheck": "tsc -p ./",
+    "lint": "biome check ./src ./scripts",
+    "lint:fix": "biome check --write ./src ./scripts",
+    "format": "biome format --write ./src ./scripts",
+    "bundle": "run-s bundle-chrome bundle-edge bundle-firefox",
+    "bundle-chrome": "rm -f symbols-icons-chrome-extension.zip && cd dist/chrome-edge && zip -r -q ../../symbols-icons-chrome-extension.zip . -x '.*'",
+    "bundle-edge": "rm -f symbols-icons-edge-extension.zip && cd dist/chrome-edge && zip -r -q ../../symbols-icons-edge-extension.zip . -x '.*'",
+    "bundle-firefox": "web-ext -s ./dist/firefox/ -n symbols-icons-firefox-extension.zip -a . build --overwrite-dest",
+    "bundle-safari": "tsx ./scripts/bundle-safari.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  }
+}
