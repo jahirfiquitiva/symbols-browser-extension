@@ -4,7 +4,42 @@ Replaces the file and folder icons on GitHub, GitLab, Bitbucket and other code
 hosts with [Symbols](https://github.com/miguelsolorio/vscode-symbols), the icon
 set by Miguel Solorio.
 
-Chrome, Edge, Firefox and Safari.
+## Install
+
+<!--
+  Store listings are not live yet. Replace each placeholder below with the real
+  identifier once a listing is approved, then drop the note underneath.
+  Chrome:  chromewebstore.google.com/detail/<extension-id>
+  Edge:    microsoftedge.microsoft.com/addons/detail/<extension-id>
+  Firefox: addons.mozilla.org/firefox/addon/<slug>/
+  Safari:  apps.apple.com/app/id<app-id>
+-->
+
+<p>
+  <a href="https://chromewebstore.google.com/detail/CHROME_EXTENSION_ID">
+    <img alt="Available in the Chrome Web Store" height="56"
+      src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png">
+  </a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/EDGE_EXTENSION_ID">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://get.microsoft.com/images/en-us%20light.svg">
+      <img alt="Get it from Microsoft" height="56" src="https://get.microsoft.com/images/en-us%20dark.svg">
+    </picture>
+  </a>
+  <a href="https://addons.mozilla.org/firefox/addon/FIREFOX_ADDON_SLUG/">
+    <img alt="Get the add-on for Firefox" height="56"
+      src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg">
+  </a>
+  <a href="https://apps.apple.com/app/idSAFARI_APP_ID">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-mac-app-store/white/en-us">
+      <img alt="Download on the Mac App Store" height="56" src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-mac-app-store/black/en-us">
+    </picture>
+  </a>
+</p>
+
+None of those listings exist yet, so the buttons above are placeholders. Until
+they do, [build it from source](#build-from-source).
 
 ## Credits
 
@@ -28,10 +63,12 @@ SourceForge and Tangled.
 
 Self-hosted instances are not supported. Doing that requires asking for
 permission on every domain, which is a much larger permission prompt than this
-extension needs today. It currently asks for `storage`, plus `activeTab` so the
-popup can tell which site you are on when you open it.
+extension needs today. It asks for `storage`, plus `activeTab` so the popup can
+read the url of the tab you opened it on and tell which site you are on.
+`activeTab` is granted only for that tab, only while the popup is open, and
+carries no permission warning.
 
-## Install from source
+## Build from source
 
 ```bash
 pnpm install
@@ -200,6 +237,6 @@ symlink icons, so those fall back to the folder and link icons. It ships one
 `folder-open` and no per-folder open variants, so an expanded folder that has
 its own icon keeps it, and only a plain folder gets the open one.
 
-## Licence
+## License
 
 MIT. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).

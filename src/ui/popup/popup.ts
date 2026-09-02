@@ -44,8 +44,7 @@ const init = async () => {
   // Browsers blank out tab.url unless the extension holds host permission for
   // that tab. `activeTab` supplies it when the popup is opened, so an absent
   // url means the page is off limits entirely, such as a browser settings
-  // page, rather than merely unsupported. Saying "not supported" there would
-  // be wrong, and it is what this popup used to do on every site.
+  // page, rather than merely unsupported.
   if (!tab?.url) {
     showNotice('Symbols Icons cannot read this page.');
     return;
