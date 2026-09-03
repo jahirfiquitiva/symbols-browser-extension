@@ -13,26 +13,17 @@ set by [Miguel Solorio](https://github.com/miguelsolorio).
 
 ## Install
 
-<!--
-  Store listings are not live yet. Replace each placeholder below with the real
-  identifier once a listing is approved, then drop the note underneath.
-  Chrome:  chromewebstore.google.com/detail/<extension-id>
-  Edge:    microsoftedge.microsoft.com/addons/detail/<extension-id>
-  Firefox: addons.mozilla.org/firefox/addon/<slug>/
-  Safari:  apps.apple.com/app/id<app-id>
--->
-
 <p>
   <a href="https://chromewebstore.google.com/detail/aelfnlibljbgmcddnjfdnmclkggdofgk">
     <img alt="Available in the Chrome Web Store" height="56"
       src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png">
   </a>
-  <!-- <a href="https://microsoftedge.microsoft.com/addons/detail/EDGE_EXTENSION_ID">
+  <a href="https://microsoftedge.microsoft.com/addons/detail/fheogihafiahildidajgnjdnmdgaojdd">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://get.microsoft.com/images/en-us%20light.svg">
       <img alt="Get it from Microsoft" height="56" src="https://get.microsoft.com/images/en-us%20dark.svg">
     </picture>
-  </a> -->
+  </a>
   <a href="https://addons.mozilla.org/firefox/addon/symbols-icons/">
     <img alt="Get the add-on for Firefox" height="56"
       src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg">
@@ -44,9 +35,6 @@ set by [Miguel Solorio](https://github.com/miguelsolorio).
     </picture>
   </a> -->
 </p>
-
-None of those listings exist yet, so the buttons above are placeholders. Until
-they do, [build it from source](#build-from-source).
 
 ## Credits
 
